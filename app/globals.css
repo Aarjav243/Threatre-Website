@@ -1,22 +1,25 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #0a0a0a;
+  --foreground: #f5f5f5;
+  --primary: #c41e3a;
+  --primary-dark: #9b1530;
+  --gold: #f5a623;
+  --card: #1a1a1a;
+  --card-border: #2a2a2a;
+  --muted: #6b7280;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --color-primary: var(--primary);
+  --color-primary-dark: var(--primary-dark);
+  --color-gold: var(--gold);
+  --color-card: var(--card);
+  --color-card-border: var(--card-border);
+  --color-muted: var(--muted);
 }
 
 body {
@@ -24,3 +27,41 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* Seat map styles */
+.seat {
+  width: 28px;
+  height: 24px;
+  border-radius: 4px 4px 0 0;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all 0.15s;
+  font-size: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+}
+
+.seat-vip { background: #4a1942; border-color: #9b30ff; color: #d8b4fe; }
+.seat-vip:hover:not(.seat-booked) { background: #6b21a8; }
+.seat-vip.seat-selected { background: #7c3aed; border-color: #a78bfa; }
+
+.seat-platinum { background: #1e3a5f; border-color: #3b82f6; color: #93c5fd; }
+.seat-platinum:hover:not(.seat-booked) { background: #1d4ed8; }
+.seat-platinum.seat-selected { background: #2563eb; border-color: #60a5fa; }
+
+.seat-gold { background: #3b2800; border-color: #f59e0b; color: #fcd34d; }
+.seat-gold:hover:not(.seat-booked) { background: #92400e; }
+.seat-gold.seat-selected { background: #b45309; border-color: #fbbf24; }
+
+.seat-silver { background: #1f2937; border-color: #6b7280; color: #d1d5db; }
+.seat-silver:hover:not(.seat-booked) { background: #374151; }
+.seat-silver.seat-selected { background: #4b5563; border-color: #9ca3af; }
+
+.seat-booked { background: #2a2a2a !important; border-color: #3a3a3a !important; color: #555 !important; cursor: not-allowed; }
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: #1a1a1a; }
+::-webkit-scrollbar-thumb { background: #3a3a3a; border-radius: 3px; }
