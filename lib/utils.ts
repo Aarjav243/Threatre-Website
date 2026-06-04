@@ -1,41 +1,34 @@
-export function formatTime(time: string) {
-  const [h, m] = time.split(':').map(Number)
-  const ampm = h >= 12 ? 'PM' : 'AM'
-  const hour = h % 12 || 12
-  return `${hour}:${m.toString().padStart(2, '0')} ${ampm}`
+export const ORDER_STATUSES: { key: string; label: string }[] = [
+  { key: 'placed', label: 'Order Placed' },
+  { key: 'confirmed', label: 'Confirmed' },
+  { key: 'preparing', label: 'Preparing' },
+  { key: 'out_for_delivery', label: 'Out for Delivery' },
+  { key: 'delivered', label: 'Delivered' },
+]
+
+export const STATUS_COLORS: Record<string, string> = {
+  placed: 'text-yellow-400 bg-yellow-900/20 border-yellow-700',
+  confirmed: 'text-blue-400 bg-blue-900/20 border-blue-700',
+  preparing: 'text-orange-400 bg-orange-900/20 border-orange-700',
+  out_for_delivery: 'text-purple-400 bg-purple-900/20 border-purple-700',
+  delivered: 'text-green-400 bg-green-900/20 border-green-700',
 }
 
-export function formatDate(date: string) {
-  return new Date(date).toLocaleDateString('en-IN', {
-    weekday: 'short', day: 'numeric', month: 'short', year: 'numeric'
-  })
+export const STATUS_NEXT: Record<string, string | null> = {
+  placed: 'confirmed',
+  confirmed: 'preparing',
+  preparing: 'out_for_delivery',
+  out_for_delivery: 'delivered',
+  delivered: null,
 }
 
-export function generateBookingRef() {
-  const date = new Date()
-  const dateStr = date.toISOString().slice(0, 10).replace(/-/g, '')
-  const rand = Math.random().toString(36).substring(2, 6).toUpperCase()
-  return `RKT-${dateStr}-${rand}`
+export const STATUS_NEXT_LABEL: Record<string, string> = {
+  placed: 'Confirm Order',
+  confirmed: 'Start Preparing',
+  preparing: 'Out for Delivery',
+  out_for_delivery: 'Mark Delivered',
 }
 
-export function getCategoryColor(category: string) {
-  switch (category) {
-    case 'VIP': return 'text-purple-400 bg-purple-900/30 border-purple-700'
-    case 'PLATINUM': return 'text-blue-400 bg-blue-900/30 border-blue-700'
-    case 'GOLD': return 'text-yellow-400 bg-yellow-900/30 border-yellow-700'
-    case 'SILVER': return 'text-gray-400 bg-gray-800/30 border-gray-600'
-    default: return 'text-gray-400'
-  }
-}
-
-export function groupSeatsByRow(seats: import('./types').Seat[]) {
-  const rows: Record<string, import('./types').Seat[]> = {}
-  for (const seat of seats) {
-    if (!rows[seat.row_letter]) rows[seat.row_letter] = []
-    rows[seat.row_letter].push(seat)
-  }
-  for (const row of Object.values(rows)) {
-    row.sort((a, b) => a.seat_number - b.seat_number)
-  }
-  return rows
+export function formatTime(ts: string) {
+  return new Date(ts).toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' })
 }

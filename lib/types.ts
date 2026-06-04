@@ -1,102 +1,42 @@
-export type Movie = {
-  id: string
-  title: string
-  language: string
-  genre: string
-  duration_minutes: number
-  poster_url: string | null
-  description: string
-  rating: string
-  is_active: boolean
-  created_at: string
-}
-
-export type Screen = {
+export type MenuCategory = {
   id: string
   name: string
-  screen_number: number
-  total_seats: number
+  display_order: number
 }
 
-export type Show = {
+export type MenuItem = {
   id: string
-  movie_id: string
-  screen_id: string
-  show_date: string
-  show_time: string
-  audio_format: string
-  is_active: boolean
-  movies?: Movie
-  screens?: Screen
-}
-
-export type Seat = {
-  id: string
-  screen_id: string
-  row_letter: string
-  seat_number: number
-  category: 'VIP' | 'PLATINUM' | 'GOLD' | 'SILVER'
-  price: number
-}
-
-export type SnackItem = {
-  id: string
+  category_id: string
   name: string
+  description: string | null
   price: number
-  category: string
   is_available: boolean
-  image_url: string | null
+  menu_categories?: MenuCategory
 }
 
-export type Booking = {
+export type OrderStatus = 'placed' | 'confirmed' | 'preparing' | 'out_for_delivery' | 'delivered'
+
+export type Order = {
   id: string
-  booking_reference: string
-  show_id: string
+  screen_name: string
+  seat_number: string
   customer_name: string
-  customer_phone: string
+  status: OrderStatus
   total_amount: number
-  ticket_amount: number
-  snack_amount: number
-  status: 'confirmed' | 'cancelled'
-  payment_status: 'pending' | 'paid'
   created_at: string
-  shows?: Show & { movies?: Movie; screens?: Screen }
+  order_items?: OrderItem[]
 }
 
-export type BookingSeat = {
+export type OrderItem = {
   id: string
-  booking_id: string
-  seat_id: string
-  show_id: string
-  seats?: Seat
-}
-
-export type BookingSnack = {
-  id: string
-  booking_id: string
-  snack_item_id: string
+  order_id: string
+  menu_item_id: string | null
+  item_name: string
   quantity: number
   unit_price: number
-  snack_items?: SnackItem
-}
-
-export type Refund = {
-  id: string
-  booking_id: string
-  amount: number
-  reason: string
-  status: 'pending' | 'processed' | 'rejected'
-  requested_at: string
-  processed_at: string | null
-  bookings?: Booking
 }
 
 export type CartItem = {
-  seat: Seat
-  showId: string
-}
-
-export type SnackCartItem = {
-  snack: SnackItem
+  menuItem: MenuItem
   quantity: number
 }
